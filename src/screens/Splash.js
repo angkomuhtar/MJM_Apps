@@ -1,12 +1,14 @@
-import {View, Text} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import React from 'react';
+import tw from 'tailwind-react-native-classnames';
+import logo from '../assets/logo.png';
 
-const splash = () => {
+const Splash = () => {
   return (
-    <View>
-      <Text>splash</Text>
+    <View style={tw`h-full bg-blue-400 flex items-center justify-center`}>
+      <Image source={logo} style={tw`w-40`} resizeMode="contain" />
     </View>
   );
 };
 
-export default splash;
+export default Splash;

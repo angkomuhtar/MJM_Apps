@@ -1,16 +1,18 @@
 import React from 'react';
 import {View, Text, SafeAreaView} from 'react-native';
 import {Provider} from 'react-redux';
-import tw from 'tailwind-react-native-classnames';
 import {store} from './src/store';
-import Home from './src/screens/Home';
+import Splash from './src/screens/Splash';
+import {NavigationContainer} from '@react-navigation/native';
+import AppStack from './src/navigation/AppStack';
+import AuthStack from './src/navigation/AuthStack';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <SafeAreaView style={tw`bg-white h-full`}>
-        <Home />
-      </SafeAreaView>
+      <NavigationContainer>
+        <AuthStack />
+      </NavigationContainer>
     </Provider>
   );
 };
