@@ -1,6 +1,6 @@
 import {View, Text, Image} from 'react-native';
 import React from 'react';
-import tw from 'tailwind-react-native-classnames';
+import tw from 'twrnc';
 import logo from '../assets/logo.png';
 
 const Splash = () => {
