@@ -1,96 +1,73 @@
-import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import React from 'react';
 import tw from 'twrnc';
 import logo from '../assets/logo-blue.png';
 import {
-  Input,
+  Image,
+  TouchableOpacity,
+  Text,
+  View,
+  Platform,
   KeyboardAvoidingView,
-  Button,
-  VStack,
-  Heading,
-  Center,
-  NativeBaseProvider,
-  FormControl,
-  Stack,
-  WarningOutlineIcon,
-} from 'native-base';
-import {Platform} from 'react-native';
-import {Image, TouchableOpacity, Text} from 'react-native';
+  TextInput,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
-import {doLogin} from '../reducer/authSlice';
+import {useNavigation} from '@react-navigation/native';
+import {login} from '~reducer/auth';
+import InputForm from '~components/InputForm';
+import {useForm, Controller} from 'react-hook-form';
 
 const Login = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [form, setForm] = useState({
-    username: '',
-    pass: '',
-  });
-  console.log(form);
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm();
+  const {isLoggedIn, user} = useSelector(state => state.auth);
+
+  const handleLogin = async form => {
+    dispatch(login(form));
+  };
   return (
-    <NativeBaseProvider>
-      <Center flex={1} px={2}>
-        <KeyboardAvoidingView
-          h={{
-            base: '500px',
-            lg: 'auto',
-          }}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <Center>
-            <VStack flex="1" justifyContent="flex-end" w="100%">
-              <Image source={logo} style={tw`h-32 mb-7`} resizeMode="contain" />
-              <Heading mb="3">Login</Heading>
-              <FormControl isRequired mt={5}>
-                <Stack>
-                  <FormControl.Label>Username</FormControl.Label>
-                  <Input
-                    type="text"
-                    defaultValue="admin@email.com"
-                    placeholder="username"
-                    onChangeText={text => {
-                      setForm({
-                        ...form,
-                        username: text,
-                      });
-                    }}
-                  />
-                  <FormControl.HelperText>
-                    Must be atleast 6 characters.
-                  </FormControl.HelperText>
-                  <FormControl.ErrorMessage
-                    leftIcon={<WarningOutlineIcon size="xs" />}>
-                    Atleast 6 characters are required.
-                  </FormControl.ErrorMessage>
-                </Stack>
-              </FormControl>
-              <FormControl isRequired mt={3}>
-                <Stack>
-                  <FormControl.Label>Password</FormControl.Label>
-                  <Input
-                    type="password"
-                    defaultValue="12345"
-                    placeholder="password"
-                  />
-                  <FormControl.HelperText>
-                    Must be atleast 6 characters.
-                  </FormControl.HelperText>
-                  <FormControl.ErrorMessage
-                    leftIcon={<WarningOutlineIcon size="xs" />}>
-                    Atleast 6 characters are required.
-                  </FormControl.ErrorMessage>
-                </Stack>
-              </FormControl>
-              <TouchableOpacity
-                style={tw`bg-blue-500 p-3 rounded-md mt-3 flex flex-row justify-center items-center`}
-                onPress={() => dispatch(doLogin(form))}>
-                <Text style={tw`text-white mr-2 text-lg`}>Masuk</Text>
-                <Ionicons name="log-in-outline" size={24} color="#ffffff" />
-              </TouchableOpacity>
-            </VStack>
-          </Center>
-        </KeyboardAvoidingView>
-      </Center>
-    </NativeBaseProvider>
+    <View
+      style={tw.style(
+        'flex h-full bg-white justify-center items-center px-10',
+      )}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <Image source={logo} style={tw`h-32 mb-7`} resizeMode="contain" />
+        <Text
+          style={tw.style('text-xl', {
+            fontFamily: 'Raleway',
+            fontWeight: '800',
+          })}>
+          Login
+        </Text>
+        <InputForm
+          control={control}
+          name="username"
+          field="Username"
+          placeholder="Username"
+          rules={{required: 'Tidak Boleh Kosong'}}
+        />
+        <InputForm
+          control={control}
+          secureTextEntry={true}
+          name="password"
+          field="Password"
+          placeholder="Password"
+          rules={{required: 'Tidak Boleh Kosong'}}
+        />
+        <TouchableOpacity
+          style={tw`bg-blue-500 p-3 rounded-md mt-8 flex flex-row justify-center items-center`}
+          onPress={handleSubmit(handleLogin)}>
+          <Text style={tw`text-white mr-2 text-lg`}>Masuk</Text>
+          <Ionicons name="log-in-outline" size={24} color="#ffffff" />
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 

@@ -1,17 +1,15 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Splash from '../screens/Splash';
 import Home from '../screens/Home';
 import Stock from '../screens/Stock';
 import Approval from '../screens/Approval';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const Stack = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const AppStack = () => {
   return (
-    <Stack.Navigator
+    <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
@@ -30,18 +28,24 @@ const AppStack = () => {
         tabBarActiveTintColor: '#2bbbee',
         tabBarInactiveTintColor: '#2f2f2f',
       })}>
-      <Stack.Screen
+      <Tab.Screen
         name="home"
         component={Home}
         options={{headerShown: false, tabBarLabel: 'HOME'}}
       />
-      <Stack.Screen
+      <Tab.Screen
         name="stock"
         component={Stock}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="approval" component={Approval} />
-    </Stack.Navigator>
+      <Tab.Screen
+        name="approval"
+        component={Approval}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Tab.Navigator>
   );
 };
 

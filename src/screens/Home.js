@@ -13,8 +13,13 @@ import {
   VStack,
   Text,
 } from 'native-base';
+import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const Home = () => {
+  const navigation = useNavigation();
+  const {user} = useSelector(state => state.auth);
+  console.log(user);
   return (
     <Box>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -41,10 +46,12 @@ const Home = () => {
                   tw`text-2xl font-bold text-gray-600`,
                   {fontFamily: 'Raleway'},
                 ]}>
-                Jhon Doe
+                {user.nama_lengkap}
               </Text>
             </VStack>
-            <TouchableOpacity style={tw`bg-gray-600 rounded-full p-2`}>
+            <TouchableOpacity
+              style={tw`bg-gray-600 rounded-full p-2`}
+              onPress={() => navigation.navigate('login')}>
               <Ionicons
                 name="notifications-outline"
                 size={18}

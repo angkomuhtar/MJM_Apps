@@ -1,12 +1,17 @@
 import React from 'react';
+import 'react-native-gesture-handler';
 import {Provider, useSelector} from 'react-redux';
-import {store} from './src/store';
-import Stack from './src/navigation/Stack';
+import {store} from '~store';
+import Router from '~navigation/Router';
+import {NavigationContainer} from '@react-navigation/native';
+import RNBootSplash from 'react-native-bootsplash';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <Stack />
+      <NavigationContainer onReady={() => RNBootSplash.hide()}>
+        <Router />
+      </NavigationContainer>
     </Provider>
   );
 };
